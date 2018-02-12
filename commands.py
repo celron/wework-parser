@@ -153,11 +153,13 @@ class ListNavigator:
         #    index_range = [0]
         for indexd in index_range:
             index = int(indexd)
-            print index
-            if index > len(array) or array =='':
+            if index+1 > len(array) or array =='':
                 continue
                 # return {'error': 'index out of range, array size %d' % (len(array))}
-            data = array[index]
+            try:
+                data = array[index]
+            except IndexError:
+                continue
             # if key is None print all
             output = dict()
             if key_list is None:
@@ -212,7 +214,7 @@ def process_command(command, string):
     if command == 'load':
         return load_command(string)
     if command == 'building':
-        return building_handler.command(string)
+        return json.dumps(building_handler.command(string))
     if command == 'geo':
         return geo_handler.command(string)
     if command == 'region':
